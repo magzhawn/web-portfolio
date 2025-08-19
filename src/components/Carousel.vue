@@ -36,6 +36,7 @@ const scale = ref(1);
 const offset = ref({ x: 0, y: 0 });
 const dragging = ref(false);
 const last = ref({ x: 0, y: 0 });
+const hover = ref<{ q: number; r: number } | null>(null);
 
 let rafId = 0;
 
@@ -166,6 +167,19 @@ function draw() {
         ctx.textBaseline = "middle";
         ctx.fillText(tab.name, x, y);
       }
+
+      const isHover = hover.value && hover.value.q === q && hover.value.r === r;
+      if (isHover) {
+        ctx.save();
+        ctx.shadowColor = "rgba(255, 0, 0, 0.9)";
+        ctx.shadowBlur = 24 / scale.value;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.lineWidth = 2 / scale.value;
+        ctx.strokeStyle = "rgba(255, 0, 0, 0.9)";
+        ctx.stroke();
+        ctx.restore();
+      }
     }
   }
   ctx.restore();
@@ -182,6 +196,10 @@ function onPointerDown(e: PointerEvent) {
   (e.target as Element).setPointerCapture(e.pointerId);
 }
 function onPointerMove(e: PointerEvent) {
+  const world = worldFromScreen(e.clientX * dpr.value, e.clientY * dpr.value);
+  const { q, r } = pixelToAxial(world.x, world.y, props.size);
+  hover.value = { q, r };
+
   if (!dragging.value) return;
   const dx = (e.clientX - last.value.x) / scale.value;
   const dy = (e.clientY - last.value.y) / scale.value;
@@ -190,6 +208,10 @@ function onPointerMove(e: PointerEvent) {
   last.value = { x: e.clientX, y: e.clientY };
 }
 function onPointerUp() { dragging.value = false; }
+function onPointerLeave() {
+  hover.value = null;
+  dragging.value = false;
+}
 
 function onWheel(e: WheelEvent) {
   e.preventDefault();
@@ -224,6 +246,7 @@ onMounted(() => {
   canvas.value?.addEventListener("pointermove", onPointerMove);
   canvas.value?.addEventListener("pointerup", onPointerUp);
   canvas.value?.addEventListener("pointercancel", onPointerUp);
+  canvas.value?.addEventListener("pointerleave", onPointerLeave);
   canvas.value?.addEventListener("wheel", onWheel, { passive: false });
   canvas.value?.addEventListener("click", onClick);
   loop();
@@ -235,6 +258,7 @@ onBeforeUnmount(() => {
   canvas.value?.removeEventListener("pointermove", onPointerMove);
   canvas.value?.removeEventListener("pointerup", onPointerUp);
   canvas.value?.removeEventListener("pointercancel", onPointerUp);
+  canvas.value?.removeEventListener("pointerleave", onPointerLeave);
   canvas.value?.removeEventListener("wheel", onWheel);
   canvas.value?.removeEventListener("click", onClick);
 });
