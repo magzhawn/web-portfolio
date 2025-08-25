@@ -176,7 +176,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .terminal {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
   width: 100%;

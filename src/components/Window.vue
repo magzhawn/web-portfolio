@@ -17,6 +17,7 @@ const resizeOffset = ref({ x: 0, y: 0 });
 
 // Fullscreen toggle
 const isFullscreen = ref(false);
+const prevState = ref({ pos: { x: 100, y: 100 }, size: { width: 800, height: 600 } });
 
 // --- DRAGGING LOGIC ---
 const startDrag = (e: MouseEvent | TouchEvent) => {
@@ -111,14 +112,12 @@ const toggleFullscreen = () => {
   isFullscreen.value = !isFullscreen.value;
 
   if (isFullscreen.value) {
+    prevState.value = { pos: { ...pos.value }, size: { ...size.value } };
     pos.value = { x: 0, y: 0 };
-    size.value = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
+    size.value = { width: window.innerWidth, height: window.innerHeight };
   } else {
-    pos.value = { x: 100, y: 100 };
-    size.value = { width: 800, height: 600 };
+    pos.value = { ...prevState.value.pos };
+    size.value = { ...prevState.value.size };
   }
 };
 
@@ -135,7 +134,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="windowRef"
-    class="window"
+    class="window glass-macos"
     :style="{
       top: pos.y + 'px',
       left: pos.x + 'px',
@@ -143,6 +142,7 @@ onBeforeUnmount(() => {
       height: size.height + 'px',
     }"
   >
+    <!-- Window Header -->
     <div class="window-header" @mousedown="startDrag" @touchstart="startDrag">
       <div class="mac-controls">
         <span class="btn close" @click.stop="closeWindow"></span>
@@ -150,10 +150,13 @@ onBeforeUnmount(() => {
         <span class="btn maximize" @click.stop="toggleFullscreen"></span>
       </div>
     </div>
+
+    <!-- Window Content -->
     <div class="window-content">
       <slot />
     </div>
-    
+
+    <!-- Resize Handles -->
     <div
       v-for="dir in [
         'top',
@@ -175,35 +178,45 @@ onBeforeUnmount(() => {
 <style scoped>
 .window {
   position: absolute;
-  background: transparent;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  
 }
 
 .window:hover {
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* macOS glass effect */
+.glass-macos {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Header bar */
 .window-header {
   height: 32px;
-  background: transparent;
   display: flex;
   align-items: center;
   padding: 4px 12px 0px 12px;
   cursor: grab;
   user-select: none;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px);
 }
 
 .window-header:active {
   cursor: grabbing;
 }
 
+/* macOS buttons */
 .mac-controls {
   display: flex;
   gap: 8px;
@@ -215,16 +228,15 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
 .btn.close {
   background-color: #ff5f57;
 }
-
 .btn.minimize {
   background-color: #febc2e;
 }
-
 .btn.maximize {
   background-color: #28c840;
 }
@@ -235,6 +247,7 @@ onBeforeUnmount(() => {
   overflow: auto;
 }
 
+/* Resize handles */
 .resize-handle {
   position: absolute;
   background: transparent;
@@ -246,7 +259,6 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 6px;
   cursor: n-resize;
-  background-color: transparent;
 }
 .bottom {
   bottom: -2px;
@@ -254,8 +266,6 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 6px;
   cursor: s-resize;
-  background-color: transparent;
-
 }
 .left {
   top: 0;
@@ -263,8 +273,6 @@ onBeforeUnmount(() => {
   width: 6px;
   height: 100%;
   cursor: w-resize;
-  background-color: transparent;
-
 }
 .right {
   top: 0;
@@ -272,8 +280,6 @@ onBeforeUnmount(() => {
   width: 6px;
   height: 100%;
   cursor: e-resize;
-  background-color: transparent;
-
 }
 
 .top-left {
@@ -282,8 +288,6 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   cursor: nw-resize;
-  background-color: transparent;
-
 }
 .top-right {
   top: -4px;
@@ -291,8 +295,6 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   cursor: ne-resize;
-  background-color: transparent;
-
 }
 .bottom-left {
   bottom: -4px;
@@ -300,8 +302,6 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   cursor: sw-resize;
-  background-color: transparent;
-
 }
 .bottom-right {
   bottom: -4px;
@@ -309,7 +309,6 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   cursor: se-resize;
-  background-color: transparent;
-
 }
+
 </style>
