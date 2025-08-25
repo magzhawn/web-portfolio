@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLogo, useSorting } from "../composables/store";
+import { useSorting } from "../composables/store";
 import Loader from "./Loader.vue";
 const { isLoaded } = useSorting();
 </script>

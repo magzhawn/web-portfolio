@@ -38,7 +38,7 @@ const formatDate = () => {
   const formatted = now
     .toLocaleString("en-US", options)
     .replace(",", "")
-    .replace(/(\d+):(\d+):(\d+)/, (match, h, m, s) => `${h}:${m}:${s}`);
+    .replace(/(\d+):(\d+):(\d+)/, (__match, h, m, s) => `${h}:${m}:${s}`);
 
   lastLogin.value = `Last login: ${formatted} on ttys000`;
 };
