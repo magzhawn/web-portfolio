@@ -59,7 +59,7 @@ const items = ref(
 }
 
 .mobile-tab {
-  font-weight: 700;
+  font-weight: 1000;
   font-size: 3rem; /* uniform base font */
   text-align: justify; /* justify text across full width */
   white-space: nowrap;
