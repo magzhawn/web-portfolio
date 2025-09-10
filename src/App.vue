@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import NoiseBackground from './components/background/NoiseBackground.vue';
-import Footer from './components/Footer.vue';
 import Header from './components/header/Header.vue';
 
 </script>
@@ -12,7 +11,6 @@ import Header from './components/header/Header.vue';
     <main class="content">
       <RouterView />
     </main>
-    <Footer />
   </div>
 </template>
 
