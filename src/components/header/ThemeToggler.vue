@@ -65,15 +65,14 @@ onMounted(async () => {
   cursor: pointer;
   padding: 0;
   position: relative;
-  transition: background 0.3s, transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s;
 }
 
-/* Hover effect on button */
+/* Button hover animation for desktop */
 .theme-toggle:hover {
   transform: scale(1.2) rotate(15deg);
 }
 
-/* Icon */
 .icon {
   width: 24px;
   height: 24px;
@@ -93,21 +92,8 @@ onMounted(async () => {
   stroke-width: 1.5;
   stroke-linecap: round;
   transform-origin: 12px 12px;
-  transition: opacity 0.5s ease, transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.5s ease;
 }
-
-/* Rotate rays slightly on hover */
-.theme-toggle:hover .rays line {
-  transform: rotate(0deg) translateY(-2px);
-}
-.rays line:nth-child(1) { transform: rotate(0deg); }
-.rays line:nth-child(2) { transform: rotate(45deg); }
-.rays line:nth-child(3) { transform: rotate(90deg); }
-.rays line:nth-child(4) { transform: rotate(135deg); }
-.rays line:nth-child(5) { transform: rotate(180deg); }
-.rays line:nth-child(6) { transform: rotate(225deg); }
-.rays line:nth-child(7) { transform: rotate(270deg); }
-.rays line:nth-child(8) { transform: rotate(315deg); }
 
 /* Moon and craters */
 .moon-group {
@@ -124,11 +110,6 @@ onMounted(async () => {
   fill: rgba(var(--bg-rgb), 0.9);
 }
 
-/* Hover effect on moon */
-.theme-toggle:hover .moon-group {
-  transform: scale(1.05);
-}
-
 /* Light mode */
 .theme-toggle[data-theme='light'] .sun { transform: scale(1); opacity: 1; }
 .theme-toggle[data-theme='light'] .rays line { opacity: 1; }
@@ -138,5 +119,22 @@ onMounted(async () => {
 .theme-toggle[data-theme='dark'] .sun { transform: scale(0); opacity: 0; }
 .theme-toggle[data-theme='dark'] .rays line { opacity: 0; }
 .theme-toggle[data-theme='dark'] .moon-group { transform: scale(1); opacity: 1; }
-</style>
 
+/* Hover animation for rays and moon */
+.theme-toggle:hover .rays line {
+  transform: translateY(-2px);
+}
+.theme-toggle:hover .moon-group {
+  transform: scale(1.05);
+}
+
+/* Optional: smooth transition for sun rays rotation */
+.rays line:nth-child(1) { transform: rotate(0deg); }
+.rays line:nth-child(2) { transform: rotate(45deg); }
+.rays line:nth-child(3) { transform: rotate(90deg); }
+.rays line:nth-child(4) { transform: rotate(135deg); }
+.rays line:nth-child(5) { transform: rotate(180deg); }
+.rays line:nth-child(6) { transform: rotate(225deg); }
+.rays line:nth-child(7) { transform: rotate(270deg); }
+.rays line:nth-child(8) { transform: rotate(315deg); }
+</style>
