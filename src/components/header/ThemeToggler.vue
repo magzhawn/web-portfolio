@@ -15,22 +15,17 @@ onMounted(async () => {
   else theme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
   document.documentElement.setAttribute('data-theme', theme.value)
-
-  // prevent shift on mount
-  const btn = document.querySelector('.theme-toggle') as HTMLElement
-  btn.style.transition = 'none'
-  await nextTick()
-  btn.style.transition = ''
 })
 </script>
 
 <template>
-  <button class="theme-toggle" @click="toggleTheme" :data-theme="theme">
+  <button class="theme-toggle" @click="toggleTheme">
     <svg viewBox="0 0 24 24" class="icon">
       <!-- Sun -->
       <circle class="sun" cx="12" cy="12" r="6" />
+
       <!-- Rays -->
-      <g class="rays">
+      <g class="rays" :data-theme="theme">
         <line x1="12" y1="2" x2="12" y2="5" />
         <line x1="12" y1="2" x2="12" y2="5" />
         <line x1="12" y1="2" x2="12" y2="5" />
@@ -41,7 +36,7 @@ onMounted(async () => {
         <line x1="12" y1="2" x2="12" y2="5" />
       </g>
 
-      <!-- Moon with craters -->
+      <!-- Moon -->
       <g class="moon-group">
         <circle class="moon" cx="12" cy="12" r="8" />
         <circle class="crater" cx="14" cy="10" r="1" />
@@ -56,7 +51,6 @@ onMounted(async () => {
 .theme-toggle {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   border: none;
   background: transparent;
   display: flex;
@@ -65,19 +59,6 @@ onMounted(async () => {
   cursor: pointer;
   padding: 0;
   position: relative;
-  transition: transform 0.3s ease, background 0.3s;
-}
-
-/* Button hover animation for desktop */
-.theme-toggle:hover {
-  transform: scale(1.2) rotate(15deg);
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-  position: relative;
-  transition: transform 0.3s ease;
 }
 
 /* Sun */
@@ -86,21 +67,13 @@ onMounted(async () => {
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* Rays */
-.rays line {
-  stroke: var(--text-color);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  transform-origin: 12px 12px;
-  transition: transform 0.3s ease, opacity 0.5s ease;
-}
-
-/* Moon and craters */
+/* Moon */
 .moon-group {
   position: absolute;
   top: 0;
   left: 0;
   transform: scale(0);
+  opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 .moon {
@@ -110,31 +83,36 @@ onMounted(async () => {
   fill: rgba(var(--bg-rgb), 0.9);
 }
 
-/* Light mode */
-.theme-toggle[data-theme='light'] .sun { transform: scale(1); opacity: 1; }
-.theme-toggle[data-theme='light'] .rays line { opacity: 1; }
-.theme-toggle[data-theme='light'] .moon-group { transform: scale(0); opacity: 0; }
-
-/* Dark mode */
-.theme-toggle[data-theme='dark'] .sun { transform: scale(0); opacity: 0; }
-.theme-toggle[data-theme='dark'] .rays line { opacity: 0; }
-.theme-toggle[data-theme='dark'] .moon-group { transform: scale(1); opacity: 1; }
-
-/* Hover animation for rays and moon */
-.theme-toggle:hover .rays line {
-  transform: translateY(-2px);
-}
-.theme-toggle:hover .moon-group {
-  transform: scale(1.05);
+/* Rays */
+.rays line {
+  stroke: var(--text-color);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transform-origin: 12px 12px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* Optional: smooth transition for sun rays rotation */
-.rays line:nth-child(1) { transform: rotate(0deg); }
-.rays line:nth-child(2) { transform: rotate(45deg); }
-.rays line:nth-child(3) { transform: rotate(90deg); }
-.rays line:nth-child(4) { transform: rotate(135deg); }
-.rays line:nth-child(5) { transform: rotate(180deg); }
-.rays line:nth-child(6) { transform: rotate(225deg); }
-.rays line:nth-child(7) { transform: rotate(270deg); }
-.rays line:nth-child(8) { transform: rotate(315deg); }
+/* rotate rays for light mode */
+.rays[data-theme='light'] line:nth-child(1) { transform: rotate(0deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(2) { transform: rotate(45deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(3) { transform: rotate(90deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(4) { transform: rotate(135deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(5) { transform: rotate(180deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(6) { transform: rotate(225deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(7) { transform: rotate(270deg); opacity:1; }
+.rays[data-theme='light'] line:nth-child(8) { transform: rotate(315deg); opacity:1; }
+
+/* dark mode rays hidden & rotated 180deg */
+.rays[data-theme='dark'] line {
+  transform: rotate(180deg);
+  opacity:0;
+}
+
+/* Light mode sun visible, moon hidden */
+.theme-toggle[data-theme='light'] .sun { transform: scale(1); opacity:1; }
+.theme-toggle[data-theme='light'] .moon-group { transform: scale(0); opacity:0; }
+
+/* Dark mode sun hidden, moon visible */
+.theme-toggle[data-theme='dark'] .sun { transform: scale(0); opacity:0; }
+.theme-toggle[data-theme='dark'] .moon-group { transform: scale(1); opacity:1; }
 </style>
