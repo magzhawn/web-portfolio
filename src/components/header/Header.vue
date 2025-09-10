@@ -111,33 +111,42 @@ onUnmounted(() => {
   gap: 16px;
 }
 
-/* Hamburger */
 .hamburger {
   display: none;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;      /* Important: lines positioned relative to this */
   width: 24px;
   height: 18px;
   cursor: pointer;
 }
 
 .hamburger span {
-  display: block;
+  position: absolute;      /* absolute to center and overlap */
+  left: 0;
+  width: 100%;
   height: 3px;
   background: var(--text-color);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
 
+/* Place lines */
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger span:nth-child(3) { bottom: 0; }
+
+/* Open state: cross */
 .hamburger span.open:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
 .hamburger span.open:nth-child(2) {
   opacity: 0;
 }
 .hamburger span.open:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
 }
+
 
 /* Fullscreen overlay */
 .mobile-overlay {
