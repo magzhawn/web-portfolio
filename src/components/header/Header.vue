@@ -3,6 +3,7 @@ import router from '@/router';
 import { routes } from '@/router';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import ThemeToggler from './ThemeToggler.vue';
+import MobileMenuOverlay from './MobileMenuOverlay.vue';
 
 const scrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -17,11 +18,7 @@ const toggleMenu = () => {
 
 // Disable scrolling when overlay is open
 watch(mobileMenuOpen, (open) => {
-  if (open) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  document.body.style.overflow = open ? 'hidden' : '';
 });
 
 const navigate = (path: string) => {
@@ -35,7 +32,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
-  document.body.style.overflow = ''; // reset overflow on unmount
+  document.body.style.overflow = '';
 });
 </script>
 
@@ -62,14 +59,13 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <!-- Fullscreen Overlay -->
-  <div v-if="mobileMenuOpen" class="mobile-overlay">
-    <div class="mobile-tabs">
-      <span class="mobile-tab" v-for="tab in routes" :key="tab.path" @click="navigate(tab.path)">
-        {{ tab.name }}
-      </span>
-    </div>
-  </div>
+  <!-- Mobile Overlay -->
+  <MobileMenuOverlay
+    v-if="mobileMenuOpen"
+    :routes="routes"
+    @close="mobileMenuOpen = false"
+    @navigate="navigate"
+  />
 </template>
 
 <style scoped>
@@ -78,26 +74,25 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 100%;
-  box-sizing: border-box;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 12px 16px;
   background-color: rgba(var(--bg-rgb), 0.1);
   color: var(--text-color);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 20;
+  box-sizing: border-box;
 }
 
 .moto {
   font-weight: 700;
-  white-space: nowrap;           /* Prevent wrapping */
-  overflow: hidden;              /* Hide overflow if too long */
-  text-overflow: ellipsis;       /* Optional: show "..." if too long */
-  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Dynamic: min 16px, max 20px, scales with viewport */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
 }
-
 
 .right {
   display: flex;
@@ -111,16 +106,17 @@ onUnmounted(() => {
   gap: 16px;
 }
 
+/* Hamburger */
 .hamburger {
   display: none;
-  position: relative;      /* Important: lines positioned relative to this */
+  position: relative;
   width: 24px;
   height: 18px;
   cursor: pointer;
 }
 
 .hamburger span {
-  position: absolute;      /* absolute to center and overlap */
+  position: absolute;
   left: 0;
   width: 100%;
   height: 3px;
@@ -129,12 +125,10 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
-/* Place lines */
 .hamburger span:nth-child(1) { top: 0; }
 .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
 .hamburger span:nth-child(3) { bottom: 0; }
 
-/* Open state: cross */
 .hamburger span.open:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
@@ -145,40 +139,6 @@ onUnmounted(() => {
 .hamburger span.open:nth-child(3) {
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
-}
-
-
-/* Fullscreen overlay */
-.mobile-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 15;
-}
-
-/* Vertical mobile tabs */
-.mobile-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  text-align: center;
-}
-
-.mobile-tab {
-  font-size: 2rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.mobile-tab:hover {
-  text-decoration: underline;
 }
 
 /* Responsive */
