@@ -4,7 +4,6 @@ import { routes } from '@/router';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import ThemeToggler from './ThemeToggler.vue';
 import MobileMenuOverlay from './MobileMenuOverlay.vue';
-import BackgroundToggler from './BackgroundToggler.vue';
 
 const scrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -26,7 +25,6 @@ const navigate = (path: string) => {
   mobileMenuOpen.value = false;
 };
 
-// ----- Responsive Moto -----
 const motoFull = 'MAGZHAN ESENTAEV';
 const motoShort = 'MAGZHAN';
 const moto = ref(motoFull);
@@ -58,7 +56,7 @@ onUnmounted(() => {
     <!-- Left: moto + background button -->
     <div class="left" ref="leftRef">
       <span class="moto">{{ moto }}</span>
-      <BackgroundToggler />
+      <!-- <BackgroundToggler /> -->
     </div>
 
     <!-- Right: theme + tabs + hamburger -->
@@ -98,7 +96,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: rgba(var(--bg-rgb), 0.1);
+  background-color: rgba(var(--bg-color), 0.1);
   color: var(--text-color);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(8px);
@@ -133,6 +131,14 @@ onUnmounted(() => {
 .tabs.desktop-only {
   display: flex;
   gap: 16px;
+}
+
+.tab {
+  cursor: pointer;
+}
+
+.tab:hover {
+  text-decoration: underline;
 }
 
 /* Hamburger */
