@@ -29,7 +29,7 @@ onMounted(async () => {
     <svg viewBox="0 0 24 24" class="icon">
       <!-- Sun -->
       <circle class="sun" cx="12" cy="12" r="6" />
-      <!-- Rays (rotated around center) -->
+      <!-- Rays -->
       <g class="rays">
         <line x1="12" y1="2" x2="12" y2="5" />
         <line x1="12" y1="2" x2="12" y2="5" />
@@ -40,9 +40,14 @@ onMounted(async () => {
         <line x1="12" y1="2" x2="12" y2="5" />
         <line x1="12" y1="2" x2="12" y2="5" />
       </g>
-      <!-- Crescent Moon -->
-      <circle class="moon" cx="12" cy="12" r="6" />
-      <circle class="moon-mask" cx="16" cy="12" r="6" />
+
+      <!-- Moon with craters -->
+      <g class="moon-group">
+        <circle class="moon" cx="12" cy="12" r="8" />
+        <circle class="crater" cx="14" cy="10" r="1" />
+        <circle class="crater" cx="10" cy="14" r="0.8" />
+        <circle class="crater" cx="13" cy="15" r="0.5" />
+      </g>
     </svg>
   </button>
 </template>
@@ -53,7 +58,7 @@ onMounted(async () => {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: var(--bg-color);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,8 +88,6 @@ onMounted(async () => {
   transform-origin: 12px 12px;
   transition: opacity 0.5s ease;
 }
-
-/* evenly rotate rays */
 .rays line:nth-child(1) { transform: rotate(0deg); }
 .rays line:nth-child(2) { transform: rotate(45deg); }
 .rays line:nth-child(3) { transform: rotate(90deg); }
@@ -94,28 +97,28 @@ onMounted(async () => {
 .rays line:nth-child(7) { transform: rotate(270deg); }
 .rays line:nth-child(8) { transform: rotate(315deg); }
 
-/* Moon */
-.moon, .moon-mask {
-  fill: var(--text-color);
-  transition: transform 0.5s ease, opacity 0.5s ease;
+/* Moon and craters */
+.moon-group {
   position: absolute;
   top: 0;
   left: 0;
+  transform: scale(0);
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
-
-/* Mask to create crescent */
-.moon-mask {
-  fill: var(--bg-color);
+.moon {
+  fill: var(--text-color);
+}
+.crater {
+  fill: rgba(var(--bg-rgb), 0.9);
 }
 
 /* Light mode */
 .theme-toggle[data-theme='light'] .sun { transform: scale(1); opacity: 1; }
 .theme-toggle[data-theme='light'] .rays line { opacity: 1; }
-.theme-toggle[data-theme='light'] .moon, .theme-toggle[data-theme='light'] .moon-mask { transform: scale(0); opacity: 0; }
+.theme-toggle[data-theme='light'] .moon-group { transform: scale(0); opacity: 0; }
 
 /* Dark mode */
 .theme-toggle[data-theme='dark'] .sun { transform: scale(0); opacity: 0; }
 .theme-toggle[data-theme='dark'] .rays line { opacity: 0; }
-.theme-toggle[data-theme='dark'] .moon { transform: scale(1); opacity: 1; }
-.theme-toggle[data-theme='dark'] .moon-mask { transform: scale(1); opacity: 1; }
+.theme-toggle[data-theme='dark'] .moon-group { transform: scale(1); opacity: 1; }
 </style>
