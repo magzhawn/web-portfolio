@@ -1,0 +1,48 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --transparent-color: #dfdfdf;
+    --bg-rgb: 255, 255, 255;
+
+    /* Noise background color */
+    --noise-r: 200;
+    /* 0-255 */
+    --noise-g: 200;
+    /* 0-255 */
+    --noise-b: 200;
+    /* 0-255 */
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --transparent-color: #000000;
+    --bg-rgb: 0, 0, 0;
+
+    /* Noise background color for dark theme */
+    --noise-r: 30;
+    --noise-g: 30;
+    --noise-b: 30;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 14px;
+}
+
+button {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 4px 6px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+#app {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

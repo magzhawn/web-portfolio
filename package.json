@@ -11,7 +11,8 @@
   "dependencies": {
     "emoji.json": "^16.0.0",
     "lottie-web": "^5.13.0",
-    "vue": "^3.5.18"
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
