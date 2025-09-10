@@ -6,16 +6,25 @@
     --bg-rgb: 255, 255, 255;
 
     /* Noise background color */
-    --noise-r: 200;
-    --noise-g: 200;
-    --noise-b: 200;
+    --noise-r1: 200;
+    --noise-g1: 200;
+    --noise-b1: 200;
+
+    --noise-r2: 100;
+    --noise-g2: 100;
+    --noise-b2: 100;
 
     /* Font sizes (relative to root) */
-    --font-size-base: 1rem;        /* 16px default */
-    --font-size-small: 0.875rem;   /* 14px */
-    --font-size-medium: 1rem;      /* 16px */
-    --font-size-large: 1.25rem;    /* 20px */
-    --font-size-xlarge: 1.5rem;    /* 24px */
+    --font-size-base: 1rem;
+    /* 16px default */
+    --font-size-small: 0.875rem;
+    /* 14px */
+    --font-size-medium: 1rem;
+    /* 16px */
+    --font-size-large: 1.25rem;
+    /* 20px */
+    --font-size-xlarge: 1.5rem;
+    /* 24px */
 }
 
 [data-theme="dark"] {
@@ -24,14 +33,18 @@
     --transparent-color: #000000;
     --bg-rgb: 0, 0, 0;
 
-    /* Noise background color for dark theme */
-    --noise-r: 30;
-    --noise-g: 30;
-    --noise-b: 30;
+    --noise-r1: 0;
+    --noise-g1: 0;
+    --noise-b1: 0;
+
+    --noise-r2: 50;
+    --noise-g2: 50;
+    --noise-b2: 50;
 }
 
 html {
-    font-size: 100%; /* 16px default, can be scaled by browser settings */
+    font-size: 100%;
+    /* 16px default, can be scaled by browser settings */
 }
 
 body {
@@ -47,32 +60,38 @@ body {
 }
 
 h1 {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem;
+    /* 32px */
     margin: 0 0 0.5em 0;
 }
 
 h2 {
-    font-size: 1.75rem; /* 28px */
+    font-size: 1.75rem;
+    /* 28px */
     margin: 0 0 0.5em 0;
 }
 
 h3 {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.5rem;
+    /* 24px */
     margin: 0 0 0.5em 0;
 }
 
 h4 {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.25rem;
+    /* 20px */
     margin: 0 0 0.5em 0;
 }
 
 h5 {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
+    /* 16px */
     margin: 0 0 0.5em 0;
 }
 
 h6 {
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
+    /* 14px */
     margin: 0 0 0.5em 0;
 }
 
@@ -88,7 +107,8 @@ small {
 button {
     background-color: transparent;
     border-radius: 10px;
-    padding: 0.25em 0.5em; /* relative to font-size */
+    padding: 0.25em 0.5em;
+    /* relative to font-size */
     color: var(--text-color);
     cursor: pointer;
     font-size: var(--font-size-medium);
