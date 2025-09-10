@@ -27,6 +27,7 @@
     /* 24px */
 }
 
+
 [data-theme="dark"] {
     --bg-color: #121212;
     --text-color: #f1f1f1;
@@ -45,6 +46,10 @@
 html {
     font-size: 100%;
     /* 16px default, can be scaled by browser settings */
+}
+
+html, body {
+  touch-action: manipulation; /* disables double-tap zoom */
 }
 
 body {
