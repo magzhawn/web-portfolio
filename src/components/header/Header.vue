@@ -86,6 +86,14 @@ onUnmounted(() => {
   box-sizing: border-box;
 }
 
+.tab {
+  cursor: pointer;
+}
+
+.tab:hover {
+  text-decoration: underline;
+}
+
 .moto {
   font-weight: 700;
   white-space: nowrap;
