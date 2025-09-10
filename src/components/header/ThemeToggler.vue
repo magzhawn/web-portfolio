@@ -65,13 +65,20 @@ onMounted(async () => {
   cursor: pointer;
   padding: 0;
   position: relative;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s ease;
 }
 
+/* Hover effect on button */
+.theme-toggle:hover {
+  transform: scale(1.2) rotate(15deg);
+}
+
+/* Icon */
 .icon {
   width: 24px;
   height: 24px;
   position: relative;
+  transition: transform 0.3s ease;
 }
 
 /* Sun */
@@ -86,7 +93,12 @@ onMounted(async () => {
   stroke-width: 1.5;
   stroke-linecap: round;
   transform-origin: 12px 12px;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.3s ease;
+}
+
+/* Rotate rays slightly on hover */
+.theme-toggle:hover .rays line {
+  transform: rotate(0deg) translateY(-2px);
 }
 .rays line:nth-child(1) { transform: rotate(0deg); }
 .rays line:nth-child(2) { transform: rotate(45deg); }
@@ -112,6 +124,11 @@ onMounted(async () => {
   fill: rgba(var(--bg-rgb), 0.9);
 }
 
+/* Hover effect on moon */
+.theme-toggle:hover .moon-group {
+  transform: scale(1.05);
+}
+
 /* Light mode */
 .theme-toggle[data-theme='light'] .sun { transform: scale(1); opacity: 1; }
 .theme-toggle[data-theme='light'] .rays line { opacity: 1; }
@@ -122,3 +139,4 @@ onMounted(async () => {
 .theme-toggle[data-theme='dark'] .rays line { opacity: 0; }
 .theme-toggle[data-theme='dark'] .moon-group { transform: scale(1); opacity: 1; }
 </style>
+
