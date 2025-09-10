@@ -134,7 +134,7 @@ void main(){
 
   const positionLocation = gl.getAttribLocation(program, 'a_position');
   const timeLocation = gl.getUniformLocation(program, 'u_time')!;
-  const colorLocation = gl.getUniformLocation(program, 'u_color')!;
+  // const colorLocation = gl.getUniformLocation(program, 'u_color')!;
 
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
