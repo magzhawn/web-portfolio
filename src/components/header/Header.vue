@@ -4,6 +4,7 @@ import { routes } from '@/router';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import ThemeToggler from './ThemeToggler.vue';
 import MobileMenuOverlay from './MobileMenuOverlay.vue';
+import BackgroundToggler from './BackgroundToggler.vue';
 
 const scrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -16,7 +17,6 @@ const toggleMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
 };
 
-// Disable scrolling when overlay is open
 watch(mobileMenuOpen, (open) => {
   document.body.style.overflow = open ? 'hidden' : '';
 });
@@ -26,31 +26,51 @@ const navigate = (path: string) => {
   mobileMenuOpen.value = false;
 };
 
+// ----- Responsive Moto -----
+const motoFull = 'MAGZHAN ESENTAEV';
+const motoShort = 'MAGZHAN';
+const moto = ref(motoFull);
+const leftRef = ref<HTMLElement | null>(null);
+
+const updateMoto = () => {
+  if (!leftRef.value) return;
+  const motoEl = leftRef.value.querySelector('.moto') as HTMLElement;
+  if (!motoEl) return;
+  // Use real width of the element
+  moto.value = motoEl.scrollWidth > leftRef.value.offsetWidth ? motoShort : motoFull;
+};
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', updateMoto);
+  updateMoto();
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('resize', updateMoto);
   document.body.style.overflow = '';
 });
 </script>
 
 <template>
   <div :class="['header-container', { scrolled }]">
-    <span class="moto">MAGZHAN ESENTAEV</span>
+    <!-- Left: moto + background button -->
+    <div class="left" ref="leftRef">
+      <span class="moto">{{ moto }}</span>
+      <BackgroundToggler />
+    </div>
 
+    <!-- Right: theme + tabs + hamburger -->
     <div class="right">
       <ThemeToggler />
 
-      <!-- Desktop Tabs -->
       <div class="tabs desktop-only">
         <span class="tab" v-for="tab in routes" :key="tab.path" @click="navigate(tab.path)">
           {{ tab.name }}
         </span>
       </div>
 
-      <!-- Mobile Hamburger -->
       <div class="hamburger mobile-only" @click="toggleMenu">
         <span :class="{ open: mobileMenuOpen }"></span>
         <span :class="{ open: mobileMenuOpen }"></span>
@@ -86,12 +106,11 @@ onUnmounted(() => {
   box-sizing: border-box;
 }
 
-.tab {
-  cursor: pointer;
-}
-
-.tab:hover {
-  text-decoration: underline;
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
 }
 
 .moto {
@@ -100,10 +119,12 @@ onUnmounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: clamp(1rem, 2.5vw, 1.25rem);
+  min-width: 0; /* important for truncation */
 }
 
 .right {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 16px;
 }
@@ -137,25 +158,13 @@ onUnmounted(() => {
 .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
 .hamburger span:nth-child(3) { bottom: 0; }
 
-.hamburger span.open:nth-child(1) {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-}
-.hamburger span.open:nth-child(2) {
-  opacity: 0;
-}
-.hamburger span.open:nth-child(3) {
-  top: 50%;
-  transform: translateY(-50%) rotate(-45deg);
-}
+.hamburger span.open:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.hamburger span.open:nth-child(2) { opacity: 0; }
+.hamburger span.open:nth-child(3) { top: 50%; transform: translateY(-50%) rotate(-45deg); }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .tabs.desktop-only {
-    display: none;
-  }
-  .hamburger.mobile-only {
-    display: flex;
-  }
+  .tabs.desktop-only { display: none; }
+  .hamburger.mobile-only { display: flex; }
 }
 </style>

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import NoiseBackground from './components/background/NoiseBackground.vue';
-import Header from './components/header/Header.vue';
+import Header from '@/components/header/Header.vue';
+import { useHeaderStore } from '@/composables/headerStore';
 
+const { showPerlinNoise } = useHeaderStore()
 </script>
 
 <template>
   <div class="app">
-    <NoiseBackground />
+    <NoiseBackground v-if="showPerlinNoise"/>
     <Header />
     <main class="content">
       <RouterView />

@@ -89,7 +89,7 @@ float perlinNoise(vec3 p){
 float fbm(vec3 p){
   float total = 0.0;
   float amplitude = 1.0;
-  float frequency = 1.0;
+  float frequency = 2.0;
   for(int i=0;i<5;i++){
     total += perlinNoise(p*frequency) * amplitude;
     frequency *= 2.0;
