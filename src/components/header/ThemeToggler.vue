@@ -9,7 +9,7 @@ const toggleTheme = () => {
   localStorage.setItem('theme', theme.value)
 }
 
-onMounted(async () => {
+onMounted(() => {
   const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
   if (saved) theme.value = saved
   else theme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -53,12 +53,18 @@ onMounted(async () => {
   height: 40px;
   border: none;
   background: transparent;
-  display: flex;
+  display: inline-flex; /* safer than flex on mobile */
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  position: relative;
+  overflow: visible; /* ensure svg is not clipped */
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: block; /* ensures it always renders */
 }
 
 /* Sun */
@@ -69,9 +75,6 @@ onMounted(async () => {
 
 /* Moon */
 .moon-group {
-  position: absolute;
-  top: 0;
-  left: 0;
   transform: scale(0);
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
@@ -92,7 +95,7 @@ onMounted(async () => {
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-/* rotate rays for light mode */
+/* Light mode rays */
 .rays[data-theme='light'] line:nth-child(1) { transform: rotate(0deg); opacity:1; }
 .rays[data-theme='light'] line:nth-child(2) { transform: rotate(45deg); opacity:1; }
 .rays[data-theme='light'] line:nth-child(3) { transform: rotate(90deg); opacity:1; }
@@ -102,7 +105,7 @@ onMounted(async () => {
 .rays[data-theme='light'] line:nth-child(7) { transform: rotate(270deg); opacity:1; }
 .rays[data-theme='light'] line:nth-child(8) { transform: rotate(315deg); opacity:1; }
 
-/* dark mode rays hidden & rotated 180deg */
+/* Dark mode rays */
 .rays[data-theme='dark'] line {
   transform: rotate(180deg);
   opacity:0;
