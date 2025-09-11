@@ -4,6 +4,7 @@ import { routes } from '@/router';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import ThemeToggler from './ThemeToggler.vue';
 import MobileMenuOverlay from './MobileMenuOverlay.vue';
+import Search from './Search.vue';
 
 const scrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -53,22 +54,17 @@ onUnmounted(() => {
 
 <template>
   <div :class="['header-container', { scrolled }]">
-    <!-- Left: moto + background button -->
     <div class="left" ref="leftRef">
       <span class="moto">{{ moto }}</span>
-      <!-- <BackgroundToggler /> -->
+      <Search />
     </div>
-
-    <!-- Right: theme + tabs + hamburger -->
     <div class="right">
       <ThemeToggler />
-
       <div class="tabs desktop-only">
         <span class="tab" v-for="tab in routes" :key="tab.path" @click="navigate(tab.path)">
           {{ tab.name }}
         </span>
       </div>
-
       <div class="hamburger mobile-only" @click="toggleMenu">
         <span :class="{ open: mobileMenuOpen }"></span>
         <span :class="{ open: mobileMenuOpen }"></span>
@@ -76,14 +72,7 @@ onUnmounted(() => {
       </div>
     </div>
   </div>
-
-  <!-- Mobile Overlay -->
-  <MobileMenuOverlay
-    v-if="mobileMenuOpen"
-    :routes="routes"
-    @close="mobileMenuOpen = false"
-    @navigate="navigate"
-  />
+  <MobileMenuOverlay v-if="mobileMenuOpen" :routes="routes" @close="mobileMenuOpen = false" @navigate="navigate" />
 </template>
 
 <style scoped>
@@ -95,7 +84,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 0px 16px;
   background-color: rgba(var(--bg-color), 0.1);
   color: var(--text-color);
   backdrop-filter: blur(16px);
@@ -109,7 +98,9 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   min-width: 0;
+  padding: 12px 0;
 }
+
 
 .moto {
   font-weight: 700;
@@ -117,7 +108,7 @@ onUnmounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: clamp(1rem, 2.5vw, 1.25rem);
-  min-width: 0; /* important for truncation */
+  min-width: 0;
 }
 
 .right {
@@ -125,6 +116,7 @@ onUnmounted(() => {
   flex-direction: row;
   align-items: center;
   gap: 16px;
+  padding: 12px 0;
 }
 
 /* Desktop Tabs */
@@ -135,6 +127,8 @@ onUnmounted(() => {
 
 .tab {
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .tab:hover {
@@ -160,17 +154,41 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
-.hamburger span:nth-child(1) { top: 0; }
-.hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.hamburger span:nth-child(3) { bottom: 0; }
+.hamburger span:nth-child(1) {
+  top: 0;
+}
 
-.hamburger span.open:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
-.hamburger span.open:nth-child(2) { opacity: 0; }
-.hamburger span.open:nth-child(3) { top: 50%; transform: translateY(-50%) rotate(-45deg); }
+.hamburger span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger span:nth-child(3) {
+  bottom: 0;
+}
+
+.hamburger span.open:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger span.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger span.open:nth-child(3) {
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+}
 
 /* Responsive */
 @media (max-width: 768px) {
-  .tabs.desktop-only { display: none; }
-  .hamburger.mobile-only { display: flex; }
+  .tabs.desktop-only {
+    display: none;
+  }
+
+  .hamburger.mobile-only {
+    display: flex;
+  }
 }
 </style>
