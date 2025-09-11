@@ -1,7 +1,7 @@
 :root {
     /* Base colors */
     --bg-color: #ffffff;
-    --bg-color-secondary: #e6e6e6;
+    --bg-color-secondary: #f5f5f5;
     --text-color: #000000;
     --transparent-color: #dfdfdf;
     --bg-rgb: 255, 255, 255;
@@ -30,8 +30,8 @@
 
 
 [data-theme="dark"] {
-    --bg-color: #121212;
-    --bg-color-secondary: #313131;
+    --bg-color: #090909;
+    --bg-color-secondary: #101010;
 
     --text-color: #f1f1f1;
     --transparent-color: #000000;
