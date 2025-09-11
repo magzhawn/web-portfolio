@@ -56,7 +56,7 @@ onUnmounted(() => {
   <div :class="['header-container', { scrolled }]">
     <div class="left" ref="leftRef">
       <span class="moto">{{ moto }}</span>
-      <Search />
+      <Search class="search" />
     </div>
     <div class="right">
       <ThemeToggler />
@@ -184,6 +184,10 @@ onUnmounted(() => {
 /* Responsive */
 @media (max-width: 768px) {
   .tabs.desktop-only {
+    display: none;
+  }
+
+  .search {
     display: none;
   }
 
