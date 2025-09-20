@@ -5,13 +5,19 @@
 
 <template>
     <div class="home">
+        <h1 class="title">Welcome to Magzhan's webpage!</h1>
+
     </div>
 </template>
 
 <style scoped>
 .home {
-    padding: 68px 16px 0 16px;
-    overflow-x: hidden;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.title {
+    padding-left: 1rem;
 }
 </style>
