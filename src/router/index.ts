@@ -4,39 +4,44 @@ import ProjectsView from '@/view/ProjectsView.vue'
 import SourcesView from '@/view/SourcesView.vue'
 import ExperienceView from '@/view/ExperienceView.vue'
 import ContactView from '@/view/ContactView.vue'
-import RandomView from '@/view/RandomView.vue'
 
 export const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
+    emoji: "🏠"
   },
   {
     name: "Projects",
     path: "/projects",
-    component: ProjectsView
+    component: ProjectsView,
+    emoji: "💼"
   },
   {
     name: "Experience",
     path: "/experience",
-    component: ExperienceView
+    component: ExperienceView,
+    emoji: "🛠️"
   },
   {
     name: "Sources",
     path: "/sources",
-    component: SourcesView
+    component: SourcesView,
+    emoji: "📚"
   },
   {
     name: "Contact",
     path: "/contact",
-    component: ContactView
+    component: ContactView,
+    emoji: "✉️"
   },
-  {
-    name: "Perlin Noise",
-    path: "/random",
-    component: RandomView
-  }
+  // {
+  //   name: "Perlin Noise",
+  //   path: "/random",
+  //   component: RandomView,
+  //   emoji: "🎲"
+  // }
 ]
 
 const router = createRouter({

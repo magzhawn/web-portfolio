@@ -1,26 +1,38 @@
 <script setup lang="ts">
-import Header from '@/components/header/Header.vue';
+import { ref, onMounted, onUnmounted } from 'vue'
+import MobileLayout from '@/layouts/MobileLayout.vue'
+import DesktopLayout from '@/layouts/DesktopLayout.vue'
+
+const isMobile = ref(false)
+
+const checkScreen = () => {
+  isMobile.value = window.innerWidth < 768 
+}
+
+onMounted(() => {
+  checkScreen()
+  window.addEventListener('resize', checkScreen)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreen)
+})
 </script>
 
 <template>
   <div class="app">
-    <Header />
     <main class="content">
-      <RouterView />
+      <component :is="isMobile ? MobileLayout : DesktopLayout" />
     </main>
   </div>
 </template>
 
 <style>
 .app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-  z-index: 0;
+  height: 100%;
+  width: 100%;
 }
-
 .content {
-  flex: 1;
+  height: 100%;
 }
 </style>

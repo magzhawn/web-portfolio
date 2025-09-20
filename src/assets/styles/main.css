@@ -1,109 +1,94 @@
 :root {
-    /* Base colors */
-    --bg-color: #ffffff;
-    --bg-color-secondary: #f5f5f5;
+    --bg-color: #fdfdfd;
+    --bg-color-secondary: #fafafa;
     --text-color: #000000;
-    --transparent-color: #dfdfdf;
-    --bg-rgb: 255, 255, 255;
+    --text-color-secondary: #b7b7b7;
+    --border-color: #f6f6f6;
+    --hover-bg-color: #efefef;
 
-    /* Noise background color */
-    --noise-r1: 200;
-    --noise-g1: 200;
-    --noise-b1: 200;
+    --bg-color-success: #699a6a;
+    --bg-color-accent: #ffd60a;
 
-    --noise-r2: 100;
-    --noise-g2: 100;
-    --noise-b2: 100;
-
-    /* Font sizes (relative to root) */
     --font-size-base: 1rem;
-    /* 16px default */
     --font-size-small: 0.875rem;
-    /* 14px */
     --font-size-medium: 1rem;
-    /* 16px */
     --font-size-large: 1.25rem;
-    /* 20px */
     --font-size-xlarge: 1.5rem;
-    /* 24px */
 }
 
 
 [data-theme="dark"] {
     --bg-color: #090909;
-    --bg-color-secondary: #101010;
-
+    --bg-color-secondary: #0a0a0a;
     --text-color: #f1f1f1;
-    --transparent-color: #000000;
-    --bg-rgb: 0, 0, 0;
-
-    --noise-r1: 0;
-    --noise-g1: 0;
-    --noise-b1: 0;
-
-    --noise-r2: 50;
-    --noise-g2: 50;
-    --noise-b2: 50;
+    --border-color: #0d0d0d;
+    --hover-bg-color: #151515;
 }
 
 html {
     font-size: 100%;
-    /* 16px default, can be scaled by browser settings */
 }
 
-html, body {
-  touch-action: manipulation; /* disables double-tap zoom */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none;    /* Firefox */
-  -ms-user-select: none;     /* IE10+ */
-  user-select: none;         /* Standard */
+html,
+body {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 0;
+}
+
+.content {
+    flex: 1;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+    /* transition: background-color 0.3s, color 0.3s; */
     margin: 0;
     padding: 0;
     height: 100%;
     font-size: var(--font-size-base);
-    line-height: 1.5;
+    line-height: 1;
     overflow: hidden;
 }
 
 h1 {
     font-size: 2rem;
-    /* 32px */
     margin: 0 0 0.5em 0;
 }
 
 h2 {
     font-size: 1.75rem;
-    /* 28px */
     margin: 0 0 0.5em 0;
 }
 
 h3 {
     font-size: 1.5rem;
-    /* 24px */
     margin: 0 0 0.5em 0;
 }
 
 h4 {
     font-size: 1.25rem;
-    /* 20px */
     margin: 0 0 0.5em 0;
 }
 
 h5 {
     font-size: 1rem;
-    /* 16px */
     margin: 0 0 0.5em 0;
 }
 
 h6 {
     font-size: 0.875rem;
-    /* 14px */
     margin: 0 0 0.5em 0;
 }
 
